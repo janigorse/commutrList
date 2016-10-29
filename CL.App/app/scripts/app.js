@@ -47,6 +47,11 @@ angular
         controller: 'NewrouteCtrl',
         controllerAs: 'newroute'
       })
+      .when('/route/:routeId', {
+        templateUrl: 'views/route.html',
+        controller: 'DisplayRouteCtrl',
+        controllerAs: 'displayroute'
+      })
       .otherwise({
         redirectTo: '/'
       });

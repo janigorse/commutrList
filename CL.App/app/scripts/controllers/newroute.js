@@ -73,7 +73,7 @@ angular.module('commuterListApp')
             endLocLng: newRoute.endLocLng
         });
 
-        $location.path('main');
+        $location.path('/main');
     };
 
     

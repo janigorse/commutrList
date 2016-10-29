@@ -18,7 +18,7 @@
 
 <div class="row marketing">
   <div class="table responsive">
-    <table class="table table-striped">
+    <table class="table table-hover clickable">
       <thead>
         <th>From</th>
         <th>To</th>
@@ -27,14 +27,15 @@
         <th>arrive at</th>
         <th>it takes me</th>
       </thead>
-      <tbody ng-repeat="route in routes | filter:routeSearch">
-        <td>{{route.fromAddress}}</td>
-        <td>{{route.toAddress}}</td>
-        <td>{{route.travelMode}}</td>
-        <td>{{route.startTime}}</td>
-        <td>{{route.endTime}}</td>
-        <td>{{route.hours}} hours {{route.minutes}} minutes {{route.seconds}} seconds</td>
-        
+      <tbody>
+        <tr ng-repeat="route in routes | filter:routeSearch" ng-click="openRoute(route.$id)">
+          <td>{{route.fromAddress}}</td>
+          <td>{{route.toAddress}}</td>
+          <td>{{route.travelMode}}</td>
+          <td>{{route.startTime}}</td>
+          <td>{{route.endTime}}</td>
+          <td>{{route.hours}} hours {{route.minutes}} minutes {{route.seconds}} seconds</td>
+        </tr>
       </tbody>
     </table>
   </div>
