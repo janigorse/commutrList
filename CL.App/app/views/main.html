@@ -1,45 +1,43 @@
+
 <div class="jumbotron">
-  <h1>Get to work on time!</h1>
-  <p class="lead">
-    Stuck in traffic jam again? Are you running late again?
-  </p>
-  
-  <p class="lead">
-    Find your best route below!
-  </p>
-</div>
-
-
-<div class="input-group">
-  <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span></span>
-  <input type="text" class="form-control" placeholder="address, city" ng-model="routeSearch">
-</div>
-
-
-<div class="row marketing">
-  <div class="table responsive">
-    <table class="table table-hover clickable">
-      <thead>
-        <th>From</th>
-        <th>To</th>
-        <th>By</th>
-        <th>I start at</th>
-        <th>arrive at</th>
-        <th>it takes me</th>
-      </thead>
-      <tbody>
-        <tr ng-repeat="route in routes | filter:routeSearch" ng-click="openRoute(route.$id)">
-          <td>{{route.fromAddress}}</td>
-          <td>{{route.toAddress}}</td>
-          <td>{{route.travelMode}}</td>
-          <td>{{route.startTime}}</td>
-          <td>{{route.endTime}}</td>
-          <td>{{route.hours}} hours {{route.minutes}} minutes {{route.seconds}} seconds</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+  <div class="container">
     
-  
+    
+  </div>
+</div>
+<!--
+<div class="container">
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span></span>
+    <input type="text" class="form-control" placeholder="address, city" ng-model="routeSearch">
+  </div>
+</div>
+-->
+
+
+<div class="container">
+  <div class="row marketing">
+    <div class="table responsive">
+      <table class="table table-hover clickable">
+        <thead>
+          <th>From</th>
+          <th>To</th>
+          <th>By</th>
+          <th>I start at</th>
+          <th>arrive at</th>
+          <th>it takes me</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="route in routes | filter:routeSearch" ng-click="openRoute(route.$id)">
+            <td>{{route.fromAddress}}</td>
+            <td>{{route.toAddress}}</td>
+            <td>{{route.travelMode}}</td>
+            <td>{{route.startTime}}</td>
+            <td>{{route.endTime}}</td>
+            <td>{{route.hours}} hours {{route.minutes}} minutes {{route.seconds}} seconds</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

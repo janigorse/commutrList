@@ -30,7 +30,7 @@ angular.module('commuterListApp')
 
     $scope.calculateRoute = function() {
       NgMap.getMap().then(function(map) {
-        var durationInSeconds = map.directionsRenderers[0].directions.routes[0].legs[0].duration.value;
+        var durationInSeconds = (map.directionsRenderers[0].directions != "undefined") ? map.directionsRenderers[0].directions.routes[0].legs[0].duration.value : null;
 
         //$scope.newRoute.endTime = moment($scope.newRoute.startTime).add(durationInSeconds, 'seconds').toDate();
         $scope.newRoute.endTime = moment(moment($scope.newRoute.startTime).add(durationInSeconds, 'seconds').format('HH:mm a'), 'HH:mm a').toDate();
