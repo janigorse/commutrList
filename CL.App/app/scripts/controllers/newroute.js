@@ -45,6 +45,12 @@ angular.module('commuterListApp')
         console.log(map.directionsRenderers[0].directions.routes[0].overview_path.length);
         console.log(map.directionsRenderers[0].directions.routes[0].legs[0].distance.text);
         console.log(map.directionsRenderers[0].directions.routes[0].legs[0].duration.text);
+
+        
+        $scope.newRoute.waypoints = resolveWaypoints(map.directionsRenderers[0].directions);
+        
+         
+        
         
       });
       
@@ -70,11 +76,32 @@ angular.module('commuterListApp')
             startLocLat: newRoute.startLocLat,
             startLocLng: newRoute.startLocLng,
             endLocLat: newRoute.endLocLat,
-            endLocLng: newRoute.endLocLng
+            endLocLng: newRoute.endLocLng,
+            waypoints: newRoute.waypoints
         });
 
         $location.path('/main');
     };
+
+    function resolveWaypoints(directions) {
+      var waypoints = [];
+      var waypoint = {};
+
+      if (directions.request.waypoints) {
+        var waypointsArray = directions.request.waypoints
+        angular.forEach(waypointsArray, function(wayPoint) {
+          console.log(wayPoint);
+          waypoint.stopover = wayPoint.stopover;
+          waypoint.location = {
+            lat: wayPoint.location.lat(),
+            lng: wayPoint.location.lng()
+          }
+          waypoints.push(waypoint);
+        }); 
+      }
+      
+      return waypoints;
+    }
 
     
   });
