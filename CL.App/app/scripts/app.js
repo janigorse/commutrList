@@ -19,7 +19,8 @@ angular
     'google.places',
     'ngMap',
     'angularMoment',
-    'firebase'
+    'firebase',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
      // Initialize Firebase

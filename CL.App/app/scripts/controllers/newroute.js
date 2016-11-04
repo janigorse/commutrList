@@ -8,22 +8,11 @@
  * Controller of the commuterListApp
  */
 angular.module('commuterListApp')
-  .controller('NewrouteCtrl', function ($scope, NgMap, $firebaseObject, $location) {
+  .controller('NewrouteCtrl', function ($scope, NgMap, $firebaseObject, $location, $route) {
     console.log('new route ctrl started..');
     var fireRef = firebase.database();
 
-    $scope.newRoute = {
-      startTime: moment('07:00 AM', 'HH:mm a').toDate(),
-      endTime: moment('08:00 AM', 'HH:mm a').toDate(),  
-      fromAddress: {
-        formatted_address: '' 
-      } ,
-      toAddress: {
-        formatted_address: '' 
-      } 
-    };
-
-
+    $scope.newRoute = initNewRoute();
 
     $scope.origin = $scope.newRoute.fromAddress.formatted_address;
     $scope.destination = $scope.newRoute.toAddress.formatted_address;
@@ -48,16 +37,29 @@ angular.module('commuterListApp')
 
         
         $scope.newRoute.waypoints = resolveWaypoints(map.directionsRenderers[0].directions);
-        
-         
-        
-        
       });
       
     };
 
     $scope.saveNewRoute = function(){
       addNewRoute($scope.newRoute);
+    };
+
+    $scope.clearRoute = function() {
+      $route.reload();
+    };
+
+    function initNewRoute() {
+      return {
+        startTime: moment('07:00 AM', 'HH:mm a').toDate(),
+        endTime: moment('08:00 AM', 'HH:mm a').toDate(),  
+        fromAddress: {
+          formatted_address: '' 
+        } ,
+        toAddress: {
+          formatted_address: '' 
+        }
+      } 
     };
 
     function addNewRoute(newRoute) {
