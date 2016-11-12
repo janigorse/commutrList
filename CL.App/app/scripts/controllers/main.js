@@ -20,7 +20,6 @@ angular.module('commuterListApp')
 	  $scope.editRoute = null;
     
     $scope.openRoute = function(routeId) {
-      console.log(routeId);
       $location.path(/route/ + routeId);
     }
   });

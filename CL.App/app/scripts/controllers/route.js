@@ -2,7 +2,6 @@
 
 angular.module('commuterListApp')
   .controller('DisplayRouteCtrl', function ($scope, NgMap, $firebaseObject, $location, $routeParams, $uibModal) {
-      console.log('displayroute started..');
       var routeId = $routeParams.routeId;
       var fireRef = firebase.database();
       $scope.route = $firebaseObject(fireRef.ref('routes').child(routeId));
