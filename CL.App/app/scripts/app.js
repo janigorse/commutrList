@@ -20,7 +20,9 @@ angular
     'ngMap',
     'angularMoment',
     'firebase',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'angulartics', 
+    'angulartics.google.analytics'
   ])
   .config(function ($routeProvider) {
      // Initialize Firebase
