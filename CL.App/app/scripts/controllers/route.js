@@ -17,12 +17,13 @@ angular.module('commuterListApp')
             size: 'sm'
         }).result.then(function () {
             $scope.showEmail = true;
+            //sendMailToBuyer();
         });
     };
 
     var sendMailToBuyer = function() {
-        var mailgunUrl = "YOUR_DOMAIN_HERE";
-        var mailgunApiKey = window.btoa("api:key-YOUR_API_KEY_HERE")
+        var mailgunUrl = "commutrlist.com";
+        var mailgunApiKey = window.btoa("api:key-af78d2996b730a64687ea34a1702d717")
         var recipient = "john.gorse@hotmail.com";
         var subject = "CommutrList - Your commute partner's mail";
         var message = "Hi, This is your commute partner's email: ";

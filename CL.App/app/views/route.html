@@ -7,6 +7,7 @@
     <div class="row">
     <div class="col-xs-3 col-sm-4">Email</div>
     <div class="col-xs-9 col-sm-8">
+        
         <!--<input type="button" value="Need a ride? Contact person for 10$" class="btn btn-success" ng-click="payAndDiscoverEmail()">-->
         <button ng-show="!showEmail" type="button" class="btn btn-success" ng-click="openPaymentModal()" analytics-on="click" analytics-event="Need a ride">Need a ride? Contact person for 10$</button>
         <span ng-show="showEmail">{{route.email}}</span>

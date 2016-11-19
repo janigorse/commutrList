@@ -30,7 +30,7 @@ angular.module('commuterListApp')
     };
 
     $scope.calculateDuration = function() {
-      var durationInSecondsBasedOnStartEnd = moment($scope.newRoute.endTime).diff(moment($scope.newRoute.startTime), 'seconds');
+      var durationBasedOnStartEnd = moment($scope.newRoute.endTime).diff(moment($scope.newRoute.startTime), 'seconds');
       $scope.newRoute.hours = moment.duration(durationBasedOnStartEnd, 'seconds').hours();
       $scope.newRoute.minutes = moment.duration(durationBasedOnStartEnd, 'seconds').minutes();
     };
