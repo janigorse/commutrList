@@ -39,12 +39,12 @@
         </thead>
         <tbody>
           <tr ng-repeat="route in myRoutes = (routes | filter:routeSearch)" ng-click="openRoute(route.$id)">
-            <td>{{route.fromAddress}}</td>
-            <td>{{route.toAddress}}</td>
-            <td>{{route.travelMode}}</td>
-            <td>{{route.startTime}}</td>
-            <td>{{route.endTime}}</td>
-            <td>{{route.hours}} hours {{route.minutes}} minutes</td>
+            <td>{{::route.fromAddress}}</td>
+            <td>{{::route.toAddress}}</td>
+            <td>{{::route.travelMode}}</td>
+            <td>{{::route.startTime}}</td>
+            <td>{{::route.endTime}}</td>
+            <td>{{::route.hours}} hours {{::route.minutes}} minutes</td>
           </tr>
         </tbody>
       </table>

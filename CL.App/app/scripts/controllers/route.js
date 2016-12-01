@@ -1,13 +1,15 @@
 'use strict';
 
 angular.module('commuterListApp')
-.controller('DisplayRouteCtrl', function ($scope, NgMap, $firebaseObject, $location, $routeParams, $uibModal, $http) {
+.controller('DisplayRouteCtrl', function ($scope, NgMap, $firebaseObject, $location, $routeParams, $uibModal, $http, countryService) {
     var routeId = $routeParams.routeId;
     var fireRef = firebase.database();
     $scope.route = $firebaseObject(fireRef.ref('routes').child(routeId));
     $scope.showEmail = false;
     $scope.route.$loaded(function(data){
         $scope.showWaypoint = (data.waypoints === undefined) ? false: true;
+        var startLocationCountry = countryService.getCountryName(data.startLocLat, data.startLocLng);
+        var endLocationCountry = countryService.getCountryName(data.endLocLat, data.endLocLng);
     });
 
     $scope.openPaymentModal = function() {
