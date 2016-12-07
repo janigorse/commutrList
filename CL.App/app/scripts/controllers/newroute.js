@@ -8,7 +8,7 @@
  * Controller of the commuterListApp
  */
 angular.module('commuterListApp')
-  .controller('NewrouteCtrl', function ($scope, NgMap, $firebaseObject, $location, $route) {
+  .controller('NewrouteCtrl', function ($scope, NgMap, $firebaseObject, $location, $route, countryService) {
     var fireRef = firebase.database();
     $scope.newRoute = initNewRoute();
     $scope.origin = $scope.newRoute.fromAddress.formatted_address;
@@ -25,6 +25,14 @@ angular.module('commuterListApp')
         $scope.newRoute.endLocLat = map.directionsRenderers[0].directions.routes[0].legs[0].end_location.lat();
         $scope.newRoute.endLocLng = map.directionsRenderers[0].directions.routes[0].legs[0].end_location.lng();        
         $scope.newRoute.waypoints = resolveWaypoints(map.directionsRenderers[0].directions);
+        
+        countryService.getCountryName($scope.newRoute.startLocLat, $scope.newRoute.startLocLng).then(function(countryCode){
+          $scope.newRoute.startCountryCode = countryCode;
+        });
+        
+        countryService.getCountryName($scope.newRoute.endLocLat, $scope.newRoute.endLocLng).then(function(countryCode){
+          $scope.newRoute.endCountryCode = countryCode;
+        });
       });
       
     };
@@ -33,10 +41,19 @@ angular.module('commuterListApp')
       var durationBasedOnStartEnd = moment($scope.newRoute.endTime).diff(moment($scope.newRoute.startTime), 'seconds');
       $scope.newRoute.hours = moment.duration(durationBasedOnStartEnd, 'seconds').hours();
       $scope.newRoute.minutes = moment.duration(durationBasedOnStartEnd, 'seconds').minutes();
+      
+      countryService.getCountryName($scope.newRoute.startLocLat, $scope.newRoute.startLocLng).then(function(countryCode){
+        console.log(countryCode);
+      });
+      
+      countryService.getCountryName($scope.newRoute.endLocLat, $scope.newRoute.endLocLng).then(function(countryCode){
+        console.log(countryCode);
+      });
     };
 
     $scope.saveNewRoute = function(){
       addNewRoute($scope.newRoute);
+      $location.path('/main');
     };
 
     $scope.clearRoute = function() {
@@ -56,26 +73,24 @@ angular.module('commuterListApp')
       } 
     };
 
-    function addNewRoute(newRoute) {
-      
-      
+    function addNewRoute(newRoute) {      
         fireRef.ref('routes').push({
             email: newRoute.email,
             startTime: moment(newRoute.startTime).format('HH:mm a'),
             endTime: moment(newRoute.endTime).format('HH:mm a'),
             travelMode: $scope.travelMode,
-            fromAddress: newRoute.fromAddress.name,
-            toAddress: newRoute.toAddress.name,
+            fromAddress: newRoute.fromAddress.formatted_address,
+            toAddress: newRoute.toAddress.formatted_address,
             hours: newRoute.hours,
             minutes: newRoute.minutes,
             startLocLat: newRoute.startLocLat,
             startLocLng: newRoute.startLocLng,
             endLocLat: newRoute.endLocLat,
             endLocLng: newRoute.endLocLng,
-            waypoints: newRoute.waypoints
+            waypoints: newRoute.waypoints,
+            startCountryCode: newRoute.startCountryCode,
+            endCountryCode: newRoute.endCountryCode
         });
-
-        $location.path('/main');
     };
 
     function resolveWaypoints(directions) {
