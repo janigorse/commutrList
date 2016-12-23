@@ -1,0 +1,37 @@
+<div class="container">
+  
+    <div class="row marketing">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span></span>
+            <input type="text" class="form-control" placeholder="address, city, destination" ng-model="routeSearch">
+        </div>
+
+        <table class="table-hover clickable">
+            <thead>
+            <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>By</th>
+                <th>Start</th>
+                <th>Arrive</th>
+                <th>Duration</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="route in myRoutes = (routes | filter:routeSearch)" ng-click="openRoute(route.$id)">
+                <td>{{::route.fromAddress}}</td>
+                <td>{{::route.toAddress}}</td>
+                <td>{{::route.travelMode}}</td>
+                <td>{{::route.startTime}}</td>
+                <td>{{::route.endTime}}</td>
+                <td>{{::route.hours}} hours {{::route.minutes}} minutes</td>
+            </tr>
+            </tbody>
+        </table>
+    
+    </div>
+
+    <div class="row">
+        <p class="noroute" ng-show="!myRoutes.length">No route? <a href="#/newroute">Create one!</a></p>
+    </div>
+</div>

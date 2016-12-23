@@ -22,7 +22,8 @@ angular
     'firebase',
     'ui.bootstrap',
     'angulartics', 
-    'angulartics.google.analytics'
+    'angulartics.google.analytics',
+    'angular-loading-bar'
   ])
   .config(function ($routeProvider) {
      // Initialize Firebase
@@ -54,6 +55,11 @@ angular
         templateUrl: 'views/route.html',
         controller: 'DisplayRouteCtrl',
         controllerAs: 'displayroute'
+      })
+      .when('/country/:countryCode', {
+        templateUrl: 'views/country.html',
+        controller: 'CountryCtrl',
+        controllerAs: 'country'
       })
       .otherwise({
         redirectTo: '/'

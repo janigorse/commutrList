@@ -9,17 +9,11 @@
  */
 angular.module('commuterListApp')
   .controller('MainCtrl', function ($scope, $firebaseArray, $location) {
-	  var ref = firebase.database().ref().child("routes");
-    // create a synchronized array
-    // click on `index.html` above to see it used in the DOM!
-    $scope.routes = $firebaseArray(ref);
+	  
+    var countries = firebase.database().ref().child("countries");
+    $scope.countries = $firebaseArray(countries);
     
-
-    
-	  $scope.newRoute = '';
-	  $scope.editRoute = null;
-    
-    $scope.openRoute = function(routeId) {
-      $location.path(/route/ + routeId);
-    }
+    $scope.openCountry = function(countryCode) {
+      $location.path(/country/ + countryCode);
+    };
   });

@@ -53,6 +53,7 @@ angular.module('commuterListApp')
 
     $scope.saveNewRoute = function(){
       addNewRoute($scope.newRoute);
+      incrementNumberOfRoutesForCountry($scope.newRoute.startCountryCode, $scope.newRoute.endCountryCode);
       $location.path('/main');
     };
 
@@ -110,7 +111,32 @@ angular.module('commuterListApp')
       }
       
       return waypoints;
-    }
+    };
 
-    
+    function incrementNumberOfRoutesForCountry(startCountryCode, endCountryCode) {
+      var startCountry = $firebaseObject(fireRef.ref('countries').child(startCountryCode));
+      var endCountry = $firebaseObject(fireRef.ref('countries').child(endCountryCode));
+      var modifiedStartCountry = {};
+      var modifiedEndCountry = {};
+
+      startCountry.$loaded(function(data){
+        data.numberOfRoutes = data.numberOfRoutes + 1;
+        modifiedStartCountry = data;
+
+        endCountry.$loaded(function(data){
+          data.numberOfRoutes = data.numberOfRoutes + 1;
+          modifiedEndCountry = data;
+
+          modifiedStartCountry.$save();
+          modifiedEndCountry.$save();
+        });
+      });
+
+      
+
+      
+      
+
+      
+    };
   });

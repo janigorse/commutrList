@@ -20,21 +20,18 @@
 <div class="container">
   
   <div class="row marketing">
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span></span>
-      <input type="text" class="form-control" placeholder="address, city, destination" ng-model="routeSearch">
-    </div>
+   
     
-    
+      <!--
       <table class="table-hover clickable">
         <thead>
           <tr>
-          <th>From</th>
-          <th>To</th>
-          <th>By</th>
-          <th>Start</th>
-          <th>Arrive</th>
-          <th>Duration</th>
+            <th>From</th>
+            <th>To</th>
+            <th>By</th>
+            <th>Start</th>
+            <th>Arrive</th>
+            <th>Duration</th>
           </tr>
         </thead>
         <tbody>
@@ -48,11 +45,25 @@
           </tr>
         </tbody>
       </table>
+      -->
+      <div class="row">
+        <div ng-repeat="country in countries" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+          <a-href="#" ng-click="openCountry(country.$id)">
+            <div class="hovereffect">
+              <img class="img-responsive img" src="{{::country.photoUrl}}" alt="">
+                <div class="overlay">
+                  <h2>{{::country.name}}</h2>
+                  <p> 
+                    routes: {{::country.numberOfRoutes}}
+                  </p> 
+                </div>
+            </div>
+          </a>
+        </div>
+      </div>
   </div>
+  
   <div class="row">
     <p class="noroute" ng-show="!myRoutes.length">No route? <a href="#/newroute">Create one!</a></p>
   </div>
-
-
-  
 </div>

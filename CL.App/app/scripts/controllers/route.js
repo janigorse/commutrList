@@ -6,7 +6,9 @@ angular.module('commuterListApp')
     var fireRef = firebase.database();
     $scope.route = $firebaseObject(fireRef.ref('routes').child(routeId));
     $scope.showEmail = false;
+    $scope.showEmailRow = false;
     $scope.route.$loaded(function(data){
+        $scope.showEmailRow = showEmailRow(data);
         $scope.showWaypoint = (data.waypoints === undefined) ? false: true;
         var startLocationCountry = countryService.getCountryName(data.startLocLat, data.startLocLng);
         var endLocationCountry = countryService.getCountryName(data.endLocLat, data.endLocLng);
@@ -25,7 +27,7 @@ angular.module('commuterListApp')
 
     var sendMailToBuyer = function() {
         var mailgunUrl = "commutrlist.com";
-        var mailgunApiKey = window.btoa("api:key-af78d2996b730a64687ea34a1702d717")
+        var mailgunApiKey = window.btoa("api:key-af78d2996b730a64687ea34a1702d717");
         var recipient = "john.gorse@hotmail.com";
         var subject = "CommutrList - Your commute partner's mail";
         var message = "Hi, This is your commute partner's email: ";
@@ -45,6 +47,10 @@ angular.module('commuterListApp')
             console.log("ERROR " + JSON.stringify(error));
         });
         
+    };
+
+    var showEmailRow = function(route) {
+        return route.travelMode == "DRIVING";
     };
     
 })
