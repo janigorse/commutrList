@@ -26,12 +26,12 @@ angular.module('commuterListApp')
         $scope.newRoute.endLocLng = map.directionsRenderers[0].directions.routes[0].legs[0].end_location.lng();        
         $scope.newRoute.waypoints = resolveWaypoints(map.directionsRenderers[0].directions);
         
-        countryService.getCountryName($scope.newRoute.startLocLat, $scope.newRoute.startLocLng).then(function(countryCode){
-          $scope.newRoute.startCountryCode = countryCode;
+        countryService.getCountryName($scope.newRoute.startLocLat, $scope.newRoute.startLocLng).then(function(country){
+          $scope.newRoute.startCountry = country.countryName;
         });
         
-        countryService.getCountryName($scope.newRoute.endLocLat, $scope.newRoute.endLocLng).then(function(countryCode){
-          $scope.newRoute.endCountryCode = countryCode;
+        countryService.getCountryName($scope.newRoute.endLocLat, $scope.newRoute.endLocLng).then(function(country){
+          $scope.newRoute.endCountry = country.countryName;
         });
       });
       
@@ -42,18 +42,22 @@ angular.module('commuterListApp')
       $scope.newRoute.hours = moment.duration(durationBasedOnStartEnd, 'seconds').hours();
       $scope.newRoute.minutes = moment.duration(durationBasedOnStartEnd, 'seconds').minutes();
       
-      countryService.getCountryName($scope.newRoute.startLocLat, $scope.newRoute.startLocLng).then(function(countryCode){
-        console.log(countryCode);
+      countryService.getCountryName($scope.newRoute.startLocLat, $scope.newRoute.startLocLng).then(function(country){
+        console.log(country);
+        countryExists(country.countryName);
       });
       
-      countryService.getCountryName($scope.newRoute.endLocLat, $scope.newRoute.endLocLng).then(function(countryCode){
-        console.log(countryCode);
+      countryService.getCountryName($scope.newRoute.endLocLat, $scope.newRoute.endLocLng).then(function(country){
+        console.log(country);
+        countryExists(country.countryName);
       });
+
+      
     };
 
     $scope.saveNewRoute = function(){
       addNewRoute($scope.newRoute);
-      incrementNumberOfRoutesForCountry($scope.newRoute.startCountryCode, $scope.newRoute.endCountryCode);
+      incrementNumberOfRoutesForCountry($scope.newRoute.startCountry, $scope.newRoute.endCountry);
       $location.path('/main');
     };
 
@@ -89,8 +93,8 @@ angular.module('commuterListApp')
             endLocLat: newRoute.endLocLat,
             endLocLng: newRoute.endLocLng,
             waypoints: newRoute.waypoints,
-            startCountryCode: newRoute.startCountryCode,
-            endCountryCode: newRoute.endCountryCode
+            startCountry: newRoute.startCountry,
+            endCountry: newRoute.endCountry
         });
     };
 
@@ -113,9 +117,9 @@ angular.module('commuterListApp')
       return waypoints;
     };
 
-    function incrementNumberOfRoutesForCountry(startCountryCode, endCountryCode) {
-      var startCountry = $firebaseObject(fireRef.ref('countries').child(startCountryCode));
-      var endCountry = $firebaseObject(fireRef.ref('countries').child(endCountryCode));
+    function incrementNumberOfRoutesForCountry(startCountry, endCountry) {
+      var startCountry = $firebaseObject(fireRef.ref('countries').child(startCountry));
+      var endCountry = $firebaseObject(fireRef.ref('countries').child(endCountry));
       var modifiedStartCountry = {};
       var modifiedEndCountry = {};
 
@@ -138,5 +142,27 @@ angular.module('commuterListApp')
       
 
       
+    };
+
+    function countryExists(countryName) {
+      var countries = fireRef.ref('countries');
+      countries.once('value', function(snapshot) {
+        if (snapshot.hasChild(countryName)) {
+          console.log(countryName + ' country exists!');
+        }
+        else {
+          console.log(countryName + ' country does not exists!');
+        }
+      });
+    };
+
+    function addNewCountry(countryCode, countryName) {
+      fireRef.ref('countries').set({
+        countryName: {
+          code:countryCode,
+          numberOfRoutes: 0,
+          photoUrl: "https://firebasestorage.googleapis.com/v0/b/commutrlist.appspot.com/o/country_default.jpeg?alt=media&token=0c2a67ef-c4f4-4747-bd09-d49050db1137"
+        }
+      });
     };
   });

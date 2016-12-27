@@ -10,8 +10,8 @@
 angular.module('commuterListApp')
   .controller('CountryCtrl', function ($scope, $firebaseArray, $location, $routeParams) {
     var countryCode = $routeParams.countryCode;
-    var routesByStartCountryCode = firebase.database().ref().child("routes").orderByChild("startCountryCode").equalTo(countryCode);
-    var routesByEndCountryCode = firebase.database().ref().child("routes").orderByChild("endCountryCode").equalTo(countryCode);
+    var routesByStartCountryCode = firebase.database().ref().child("routes").orderByChild("startCountry").equalTo(countryCode);
+    var routesByEndCountryCode = firebase.database().ref().child("routes").orderByChild("endCountry").equalTo(countryCode);
     var filteredRoutes = $firebaseArray(routesByStartCountryCode).$loaded()
       .then(function(result) {
         if (result.length > 0) {

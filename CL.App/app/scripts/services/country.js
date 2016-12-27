@@ -57,15 +57,15 @@ angular.module('commuterListApp')
 
                         if (cityAlt == null && countryCode !== 'US') {
                             //console.log(country);
-                            myCountry = countryCode;
+                            myCountry = {countryCode: countryCode, countryName: country};
                         }
                         else if (countryCode === 'US'){
                             //console.log(state);
-                            myCountry = stateCode;;
+                            myCountry = {countryCode: stateCode, countryName: state};
                         }
                         else {
                             //console.log(cityAlt);
-                            myCountry = cityAlt;
+                            myCountry = {countryCode: cityAlt, countryName: country};
                         }
 
                         deferred.resolve(myCountry);
