@@ -56,9 +56,28 @@ angular.module('commuterListApp')
     };
 
     $scope.saveNewRoute = function(){
+      var startCountryExists = countryExists($scope.newRoute.startCountry);
+      var endCountryExists = countryExists($scope.newRoute.endCountry);
+      var countries = fireRef.ref('countries');
+
+      countries.once('value', function(snapshot) {
+        if (!snapshot.hasChild($scope.newRoute.startCountry)) {
+          countryService.getCountryName($scope.newRoute.startLocLat, $scope.newRoute.startLocLng).then(function(country){
+            addNewCountryAndReturnBool(country.countryCode, country.countryName);  
+          });  
+        }
+
+        if (!snapshot.hasChild($scope.newRoute.endCountry)) {
+          countryService.getCountryName($scope.newRoute.endLocLat, $scope.newRoute.endLocLng).then(function(country){
+            addNewCountryAndReturnBool(country.countryCode, country.countryName);  
+          });  
+        }
+        
+      });
+      
       addNewRoute($scope.newRoute);
-      incrementNumberOfRoutesForCountry($scope.newRoute.startCountry, $scope.newRoute.endCountry);
-      $location.path('/main');
+      
+      $location.path('/');
     };
 
     $scope.clearRoute = function() {
@@ -78,7 +97,8 @@ angular.module('commuterListApp')
       } 
     };
 
-    function addNewRoute(newRoute) {      
+    function addNewRoute(newRoute) {  
+    
         fireRef.ref('routes').push({
             email: newRoute.email,
             startTime: moment(newRoute.startTime).format('HH:mm a'),
@@ -95,6 +115,8 @@ angular.module('commuterListApp')
             waypoints: newRoute.waypoints,
             startCountry: newRoute.startCountry,
             endCountry: newRoute.endCountry
+        }, function(complete) {
+          incrementNumberOfRoutesForCountry(newRoute.startCountry, newRoute.endCountry);
         });
     };
 
@@ -118,29 +140,18 @@ angular.module('commuterListApp')
     };
 
     function incrementNumberOfRoutesForCountry(startCountry, endCountry) {
-      var startCountry = $firebaseObject(fireRef.ref('countries').child(startCountry));
-      var endCountry = $firebaseObject(fireRef.ref('countries').child(endCountry));
-      var modifiedStartCountry = {};
-      var modifiedEndCountry = {};
+      var start = $firebaseObject(fireRef.ref('countries').child(startCountry));
+      var end = $firebaseObject(fireRef.ref('countries').child(endCountry));
 
-      startCountry.$loaded(function(data){
-        data.numberOfRoutes = data.numberOfRoutes + 1;
-        modifiedStartCountry = data;
+      start.$loaded(function(data){
+        start.numberOfRoutes = data.numberOfRoutes + 1;
+        start.$save();
 
-        endCountry.$loaded(function(data){
-          data.numberOfRoutes = data.numberOfRoutes + 1;
-          modifiedEndCountry = data;
-
-          modifiedStartCountry.$save();
-          modifiedEndCountry.$save();
+        end.$loaded(function(data){
+          end.numberOfRoutes = data.numberOfRoutes + 1;
+          end.$save();
         });
       });
-
-      
-
-      
-      
-
       
     };
 
@@ -148,20 +159,25 @@ angular.module('commuterListApp')
       var countries = fireRef.ref('countries');
       countries.once('value', function(snapshot) {
         if (snapshot.hasChild(countryName)) {
-          console.log(countryName + ' country exists!');
+          return true;
         }
         else {
-          console.log(countryName + ' country does not exists!');
+          return false;
         }
       });
     };
 
-    function addNewCountry(countryCode, countryName) {
-      fireRef.ref('countries').set({
-        countryName: {
+    function addNewCountryAndReturnBool(countryCode, countryName) {
+      fireRef.ref('countries').child(countryName).set({        
           code:countryCode,
           numberOfRoutes: 0,
           photoUrl: "https://firebasestorage.googleapis.com/v0/b/commutrlist.appspot.com/o/country_default.jpeg?alt=media&token=0c2a67ef-c4f4-4747-bd09-d49050db1137"
+      }, function(error) {
+        if (error) {
+          return false;
+        }
+        else {
+          return true;
         }
       });
     };
