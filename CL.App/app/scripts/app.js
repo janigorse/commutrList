@@ -48,8 +48,13 @@ angular
       })
       .when('/newroute', {
         templateUrl: 'views/newroute.html',
-        controller: 'NewrouteCtrl',
+        controller: 'NewRouteCtrl',
         controllerAs: 'newroute'
+      })
+      .when('/editroute/:routeId', {
+        templateUrl: 'views/newroute.html',
+        controller: 'NewRouteCtrl',
+        controllerAs: 'editroute'
       })
       .when('/route/:routeId', {
         templateUrl: 'views/route.html',

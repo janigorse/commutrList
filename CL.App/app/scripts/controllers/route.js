@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('commuterListApp')
-.controller('DisplayRouteCtrl', function ($scope, NgMap, $firebaseObject, $location, $routeParams, $uibModal, $http, countryService) {
+.controller('DisplayRouteCtrl', function ($scope, NgMap, $firebaseObject, $location, $routeParams, $uibModal, $http, countryService, $window) {
     var routeId = $routeParams.routeId;
     var fireRef = firebase.database();
     $scope.route = $firebaseObject(fireRef.ref('routes').child(routeId));
@@ -14,6 +14,24 @@ angular.module('commuterListApp')
         var endLocationCountry = countryService.getCountryName(data.endLocLat, data.endLocLng);
     });
 
+    $scope.removeRoute = function() {
+        $uibModal.open({
+            templateUrl:'views/deleteConfirmationModal.html',
+            controller: 'DeleteModalCtrl',
+            size: 'sm'
+        }).result.then(function(data){
+            if (data === 'delete') {
+                decrementNumberOfRoutesForCountry($scope.route.startCountry, $scope.route.endCountry);
+                $scope.route.$remove();
+                $window.history.back();
+            }
+        });
+    };
+
+    $scope.editRoute = function() {
+        $location.path("/editroute/" + $scope.route.$id);
+    };
+
     $scope.openPaymentModal = function() {
         $uibModal.open({
             templateUrl:'views/paymentModal.html',
@@ -25,7 +43,27 @@ angular.module('commuterListApp')
         });
     };
 
-    var sendMailToBuyer = function() {
+    function decrementNumberOfRoutesForCountry(startCountry, endCountry) {
+      var start = $firebaseObject(fireRef.ref('countries').child(startCountry));
+      var end = $firebaseObject(fireRef.ref('countries').child(endCountry));
+
+      start.$loaded(function(data){
+        if (data.numberOfRoutes > 0) {
+            start.numberOfRoutes = data.numberOfRoutes - 1;
+            start.$save();
+        }
+
+        end.$loaded(function(data){
+            if (data.numberOfRoutes > 0) {
+                end.numberOfRoutes = data.numberOfRoutes - 1;
+                end.$save();
+            }
+        });
+      });
+      
+    };
+
+    function sendMailToBuyer () {
         var mailgunUrl = "commutrlist.com";
         var mailgunApiKey = window.btoa("api:key-af78d2996b730a64687ea34a1702d717");
         var recipient = "john.gorse@hotmail.com";
@@ -49,7 +87,7 @@ angular.module('commuterListApp')
         
     };
 
-    var showEmailRow = function(route) {
+    function showEmailRow(route) {
         return route.travelMode == "DRIVING";
     };
     
@@ -57,6 +95,16 @@ angular.module('commuterListApp')
 
 .controller('PaymentModalCtrl', function($scope, $uibModalInstance) {
     $scope.buy = function () {
+        $uibModalInstance.close();
+    };
+})
+
+.controller('DeleteModalCtrl', function($scope, $uibModalInstance) {
+    $scope.delete = function () {
+        $uibModalInstance.close('delete');
+    };
+
+    $scope.cancel = function () {
         $uibModalInstance.close();
     };
 })

@@ -8,11 +8,11 @@
  * Controller of the commuterListApp
  */
 angular.module('commuterListApp')
-  .controller('NewrouteCtrl', function ($scope, NgMap, $firebaseObject, $location, $route, countryService) {
+  .controller('NewRouteCtrl', function ($scope, NgMap, $firebaseObject, $location, $route, countryService, $routeParams) {
+    var routeId = $routeParams.routeId;
     var fireRef = firebase.database();
-    $scope.newRoute = initNewRoute();
-    $scope.origin = $scope.newRoute.fromAddress.formatted_address;
-    $scope.destination = $scope.newRoute.toAddress.formatted_address;
+    $scope.newRoute = getRoute();
+    
 
     $scope.calculateRoute = function() {
       NgMap.getMap().then(function(map) {
@@ -82,6 +82,17 @@ angular.module('commuterListApp')
 
     $scope.clearRoute = function() {
       $route.reload();
+    };
+
+    function getRoute() {
+      if (routeId) {
+        return $firebaseObject(fireRef.ref('routes').child(routeId));
+      }
+      else {
+        $scope.origin = '';
+        $scope.destination = '';
+        return initNewRoute();
+      }
     };
 
     function initNewRoute() {
