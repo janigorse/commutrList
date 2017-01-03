@@ -1,0 +1,32 @@
+<div class="row marketing">
+    <div class="row">
+        <div class="container">
+            <form class="form-horizontal" role="form" novalidate ng-submit="register()">
+                <h2>Join Commute List</h2>
+                
+                <div class="form-group">
+                    <label for="email" class="col-sm-3 control-label">Email</label>
+                    <div class="col-sm-9">
+                        <input type="email" id="email" placeholder="Email" class="form-control" ng-model="credentials.email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-3 control-label">Password</label>
+                    <div class="col-sm-9">
+                        <input type="password" id="password" placeholder="Password" class="form-control" ng-model="credentials.password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <button type="submit" class="btn btn-primary btn-block">Join</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        Allready a member? <a href="#/login">Login here!</a>
+                    </div>
+                </div>
+            </form> <!-- /form -->
+        </div> <!-- ./container -->
+    </div>
+</div>

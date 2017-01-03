@@ -20,32 +20,6 @@
 <div class="container">
   
   <div class="row marketing">
-   
-    
-      <!--
-      <table class="table-hover clickable">
-        <thead>
-          <tr>
-            <th>From</th>
-            <th>To</th>
-            <th>By</th>
-            <th>Start</th>
-            <th>Arrive</th>
-            <th>Duration</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="route in myRoutes = (routes | filter:routeSearch)" ng-click="openRoute(route.$id)">
-            <td>{{::route.fromAddress}}</td>
-            <td>{{::route.toAddress}}</td>
-            <td>{{::route.travelMode}}</td>
-            <td>{{::route.startTime}}</td>
-            <td>{{::route.endTime}}</td>
-            <td>{{::route.hours}} hours {{::route.minutes}} minutes</td>
-          </tr>
-        </tbody>
-      </table>
-      -->
       <div class="row">
         <div ng-repeat="country in countries" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
           <a-href="#" ng-click="openCountry(country.$id)">

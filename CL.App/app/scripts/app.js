@@ -47,13 +47,19 @@ angular
         controllerAs: 'about'
       })
       .when('/newroute', {
-        templateUrl: 'views/newroute.html',
-        controller: 'NewRouteCtrl',
-        controllerAs: 'newroute'
+        templateUrl: 'views/editroute.html',
+        controller: 'EditRouteCtrl',
+        controllerAs: 'newroute',
+        resolve: {
+          "currentAuth": ["authentication", function(authentication){
+            var auth = authentication.auth();
+            return auth.$requireSignIn();
+          }]
+        }
       })
       .when('/editroute/:routeId', {
-        templateUrl: 'views/newroute.html',
-        controller: 'NewRouteCtrl',
+        templateUrl: 'views/editroute.html',
+        controller: 'EditRouteCtrl',
         controllerAs: 'editroute'
       })
       .when('/route/:routeId', {
@@ -66,9 +72,39 @@ angular
         controller: 'CountryCtrl',
         controllerAs: 'country'
       })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'login'
+      })
+      .when('/logout', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'login',
+        resolve: {
+          "logout": ["authentication", function(authentication) {
+            authentication.logout();
+          }]
+        }
+      })
+      .when('/join', {
+        templateUrl: 'views/join.html',
+        controller: 'JoinCtrl',
+        controllerAs: 'join'
+      })
       .otherwise({
         redirectTo: '/'
       });
 
       
-  });
+  })
+  .run(['$rootScope', '$location', function($rootScope, $location){
+    $rootScope.$on('$routeChangeError', function(event, next, previous, error){
+      if (error === "AUTH_REQUIRED") {
+        console.log("auth req");
+        $location.path("/login");
+      }
+    })
+  }])
+  
+  ;

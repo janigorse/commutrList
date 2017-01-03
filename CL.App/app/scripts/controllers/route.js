@@ -61,7 +61,7 @@ angular.module('commuterListApp')
         });
       });
       
-    };
+    }
 
     function sendMailToBuyer () {
         var mailgunUrl = "commutrlist.com";
@@ -85,11 +85,11 @@ angular.module('commuterListApp')
             console.log("ERROR " + JSON.stringify(error));
         });
         
-    };
+    }
 
     function showEmailRow(route) {
         return route.travelMode == "DRIVING";
-    };
+    }
     
 })
 

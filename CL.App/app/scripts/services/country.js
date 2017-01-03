@@ -82,5 +82,5 @@ angular.module('commuterListApp')
         
       
         return $q.when(myCountry);
-    }
+    };
 });
