@@ -9,7 +9,7 @@
  */
 angular.module('commuterListApp')
   
-  .controller("LoginCtrl", function($scope, authentication) {
+  .controller("LoginCtrl", function($scope, authentication, $location, $window) {
     $scope.credentials = {
       email: '',
       password: ''
@@ -19,6 +19,7 @@ angular.module('commuterListApp')
       var result = authentication.authUser($scope.credentials.email, $scope.credentials.password);
       result.then(function(userData){
         console.log('user ok: ' + userData.uid);
+        $window.location.href = "/";
       },
       function(error){
         console.log('error occured', error);

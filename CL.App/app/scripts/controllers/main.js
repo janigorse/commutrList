@@ -8,15 +8,19 @@
  * Controller of the commuterListAppApp
  */
 angular.module('commuterListApp')
-  .controller('MainCtrl', function ($scope, $firebaseArray, $location) {
+  .controller('MainCtrl', function ($scope, $firebaseArray, $location, authentication, $rootScope) {
 	  
     var countries = firebase.database().ref().child("countries");
     $firebaseArray(countries).$loaded(function(result) {
-      console.log(result);
       $scope.countries = result;
     });
     
     $scope.openCountry = function(countryCode) {
       $location.path(/country/ + countryCode);
     };
+
+    $rootScope.isUserAuthenticated = function() {
+      return authentication.auth().$getAuth()
+    };
+    
   });

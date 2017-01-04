@@ -8,9 +8,7 @@
  * Controller of the commuterListApp
  */
 angular.module('commuterListApp')
-  .controller('EditRouteCtrl', function ($scope, NgMap, $firebaseObject, $location, $route, countryService, $routeParams, moment, firebase) {
-    
-    
+  .controller('EditRouteCtrl', function ($scope, NgMap, $firebaseObject, $location, $route, countryService, $routeParams, moment, firebase, authentication) {
 
     $scope.calculateRoute = function() {
       NgMap.getMap().then(function(map) {
@@ -71,24 +69,31 @@ angular.module('commuterListApp')
     function getRoute() {
       if ($scope.routeId) {
         $firebaseObject(fireRef.ref('routes').child($scope.routeId)).$loaded(function(data) {
-        $scope.oldRoute = angular.copy(data);
-        $scope.newRoute = {
-              email: data.email,
-              startTime: moment(data.startTime,'HH:mm a').toDate(),
-              endTime: moment(data.endTime, 'HH:mm a').toDate(),
-              travelMode: data.travelMode,
-              fromAddress: {formatted_address: data.fromAddress},
-              toAddress: {formatted_address: data.toAddress},
-              hours: data.hours,
-              minutes: data.minutes,
-              startLocLat: data.startLocLat,
-              startLocLng: data.startLocLng,
-              endLocLat: data.endLocLat,
-              endLocLng: data.endLocLng,
-              waypoints: data.waypoints,
-              startCountry: data.startCountry,
-              endCountry: data.endCountry
-          };
+          var authenticated =  authentication.auth().$getAuth();
+          if (authenticated && authenticated.uid === data.uid) {
+            $scope.oldRoute = angular.copy(data);
+            $scope.newRoute = {
+                  email: data.email,
+                  startTime: moment(data.startTime,'HH:mm a').toDate(),
+                  endTime: moment(data.endTime, 'HH:mm a').toDate(),
+                  travelMode: data.travelMode,
+                  fromAddress: {formatted_address: data.fromAddress},
+                  toAddress: {formatted_address: data.toAddress},
+                  hours: data.hours,
+                  minutes: data.minutes,
+                  startLocLat: data.startLocLat,
+                  startLocLng: data.startLocLng,
+                  endLocLat: data.endLocLat,
+                  endLocLng: data.endLocLng,
+                  waypoints: data.waypoints,
+                  startCountry: data.startCountry,
+                  endCountry: data.endCountry,
+                  uid: data.uid
+              };
+          }
+          else {
+            $location.path("/");
+          }
         });
       }
       else {
@@ -128,7 +133,8 @@ angular.module('commuterListApp')
               endLocLng: newRoute.endLocLng,
               waypoints: newRoute.waypoints,
               startCountry: newRoute.startCountry,
-              endCountry: newRoute.endCountry
+              endCountry: newRoute.endCountry,
+              uid: authentication.auth().$getAuth().uid
           }, function() {
 
             if ($scope.oldRoute.startCountry !== newRoute.startCountry) {
@@ -158,7 +164,8 @@ angular.module('commuterListApp')
               endLocLng: newRoute.endLocLng,
               waypoints: newRoute.waypoints,
               startCountry: newRoute.startCountry,
-              endCountry: newRoute.endCountry
+              endCountry: newRoute.endCountry,
+              uid: authentication.auth().$getAuth().uid
           }, function() {
             //incrementNumberOfRoutesForCountry(newRoute.startCountry, newRoute.endCountry);
             incrementNumberOfRoutesForCountry(newRoute.startCountry);
@@ -209,7 +216,7 @@ angular.module('commuterListApp')
       fireRef.ref('countries').child(countryName).set({        
           code:countryCode,
           numberOfRoutes: 0,
-          photoUrl: "https://firebasestorage.googleapis.com/v0/b/commutrlist.appspot.com/o/country_default.jpeg?alt=media&token=0c2a67ef-c4f4-4747-bd09-d49050db1137"
+          photoUrl: ""
       }, function(error) {
         if (error) {
           return false;
@@ -223,4 +230,5 @@ angular.module('commuterListApp')
     $scope.routeId = $routeParams.routeId;
     var fireRef = firebase.database();
     getRoute();
+
   });

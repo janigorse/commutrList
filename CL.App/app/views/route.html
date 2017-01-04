@@ -65,8 +65,8 @@
     </div>
     <div class="row">
         <div class="col-xs-9 col-sm-8" >
-            <button type="button" class="btn btn-info" ng-click="editRoute()" >Edit route</button>
-            <button type="button" class="btn btn-danger" ng-click="removeRoute()" >Delete route</button>
+            <button type="button" class="btn btn-info" ng-click="editRoute()" ng-show="allowEditRemove()">Edit route</button>
+            <button type="button" class="btn btn-danger" ng-click="removeRoute()" ng-show="allowEditRemove()" >Delete route</button>
         </div>
     </div>
 

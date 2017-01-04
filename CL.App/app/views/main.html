@@ -24,7 +24,7 @@
         <div ng-repeat="country in countries" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
           <a-href="#" ng-click="openCountry(country.$id)">
             <div class="hovereffect">
-              <img class="img-responsive img" src="{{::country.photoUrl}}" alt="">
+              <img class="img-responsive img" ng-src="{{::country.photoUrl || 'https://firebasestorage.googleapis.com/v0/b/commutrlist.appspot.com/o/country_default.jpeg?alt=media&token=0c2a67ef-c4f4-4747-bd09-d49050db1137'}}"  alt="">
                 <div class="overlay">
                   <h2>{{::country.$id}}</h2>
                   <p> 

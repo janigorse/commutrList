@@ -27,14 +27,16 @@ angular
   ])
   .config(function ($routeProvider) {
      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyANnz8pl4M2VA7Z5j6OR_ox_JvPpWgK09Y",
-        authDomain: "commutrlist.firebaseapp.com",
-        databaseURL: "https://commutrlist.firebaseio.com",
-        storageBucket: "commutrlist.appspot.com",
-        messagingSenderId: "419935267587"
-      };
-      firebase.initializeApp(config);
+    var config = {
+      apiKey: "AIzaSyANnz8pl4M2VA7Z5j6OR_ox_JvPpWgK09Y",
+      authDomain: "commutrlist.firebaseapp.com",
+      databaseURL: "https://commutrlist.firebaseio.com",
+      storageBucket: "commutrlist.appspot.com",
+      messagingSenderId: "419935267587"
+    };
+
+    firebase.initializeApp(config);
+    
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -60,7 +62,13 @@ angular
       .when('/editroute/:routeId', {
         templateUrl: 'views/editroute.html',
         controller: 'EditRouteCtrl',
-        controllerAs: 'editroute'
+        controllerAs: 'editroute',
+        resolve: {
+          "currentAuth": ["authentication", function(authentication){
+            var auth = authentication.auth();
+            return auth.$requireSignIn();
+          }]
+        }
       })
       .when('/route/:routeId', {
         templateUrl: 'views/route.html',
@@ -78,9 +86,9 @@ angular
         controllerAs: 'login'
       })
       .when('/logout', {
-        templateUrl: 'views/login.html',
-        controller: 'LoginCtrl',
-        controllerAs: 'login',
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl',
+        controllerAs: 'main',
         resolve: {
           "logout": ["authentication", function(authentication) {
             authentication.logout();

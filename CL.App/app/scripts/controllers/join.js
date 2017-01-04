@@ -8,7 +8,7 @@
  * Controller of the commuterListApp
  */
 angular.module('commuterListApp')
-  .controller('JoinCtrl', function ($scope, authentication) {
+  .controller('JoinCtrl', function ($scope, authentication, $window) {
     $scope.credentials = {
       email: '',
       password: ''
@@ -18,6 +18,7 @@ angular.module('commuterListApp')
       var result = authentication.createUser($scope.credentials.email, $scope.credentials.password);
       result.then(function(userData){
         console.log('user ok: ' + userData);
+        $window.location.href = "/";
       },
       function(error){
         console.log('error occured', error);
