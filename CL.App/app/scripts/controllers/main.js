@@ -25,4 +25,5 @@ angular.module('commuterListApp')
       return authentication.auth().$getAuth();
     };
     
+    
   });
