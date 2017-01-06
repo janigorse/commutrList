@@ -23,6 +23,6 @@ angular.module('commuterListApp')
       },
       function(error){
         console.log('error occured', error);
-      })
+      });
     };
 });

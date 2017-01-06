@@ -134,7 +134,8 @@ angular.module('commuterListApp')
               waypoints: newRoute.waypoints,
               startCountry: newRoute.startCountry,
               endCountry: newRoute.endCountry,
-              uid: authentication.auth().$getAuth().uid
+              uid: authentication.auth().$getAuth().uid,
+              note: newRoute.note
           }, function() {
 
             if ($scope.oldRoute.startCountry !== newRoute.startCountry) {
@@ -165,7 +166,8 @@ angular.module('commuterListApp')
               waypoints: newRoute.waypoints,
               startCountry: newRoute.startCountry,
               endCountry: newRoute.endCountry,
-              uid: authentication.auth().$getAuth().uid
+              uid: authentication.auth().$getAuth().uid,
+              note: newRoute.note
           }, function() {
             //incrementNumberOfRoutesForCountry(newRoute.startCountry, newRoute.endCountry);
             incrementNumberOfRoutesForCountry(newRoute.startCountry);

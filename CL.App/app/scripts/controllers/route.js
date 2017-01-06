@@ -92,7 +92,7 @@ angular.module('commuterListApp')
     }
 
     function showEmailRow(route) {
-        return route.travelMode == "DRIVING";
+        return route.travelMode === "DRIVING";
     }
     
 })

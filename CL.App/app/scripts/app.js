@@ -111,13 +111,17 @@ angular
 
       
   })
-  .run(['$rootScope', '$location', function($rootScope, $location){
+  .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeBar = false;
+    cfpLoadingBarProvider.latencyThreshold = 50;
+  }])
+  .run(['$rootScope', '$location', function($rootScope, $location, authentication){
     $rootScope.$on('$routeChangeError', function(event, next, previous, error){
       if (error === "AUTH_REQUIRED") {
         console.log("auth req");
         $location.path("/login");
       }
-    })
+    });
   }])
   
   ;

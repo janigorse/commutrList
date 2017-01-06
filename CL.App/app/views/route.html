@@ -37,6 +37,10 @@
     <div class="col-xs-9 col-sm-8">{{route.hours}} hours {{route.minutes}} minutes</div>
     </div>
     <div class="row">
+        <div class="col-xs-3 col-sm-4">note</div>
+        <div class="col-xs-9 col-sm-8">{{route.note}}</div>
+    </div>
+    <div class="row">
         <div map-lazy-load="https://maps.google.com/maps/api/js" class="col-sm-10">
             <div ng-if="showWaypoint == true">
                 <ng-map center="41,-87" zoom="3">
@@ -63,6 +67,7 @@
             </div>
         </div>
     </div>
+    
     <div class="row">
         <div class="col-xs-9 col-sm-8" >
             <button type="button" class="btn btn-info" ng-click="editRoute()" ng-show="allowEditRemove()">Edit route</button>

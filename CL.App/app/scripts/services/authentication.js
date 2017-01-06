@@ -14,11 +14,11 @@ angular.module('commuterListApp')
 
     authentication.logout = function() {
         auth.$signOut();
-    }
+    };
 
     authentication.auth = function() {
         return auth;
-    }
+    };
     
     return authentication;
 });

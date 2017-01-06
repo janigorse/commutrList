@@ -2,7 +2,7 @@
 
 angular.module('commuterListApp')
 .service('countryService', function ($q) {
-    var myCountry = undefined;
+    var myCountry;
     
     this.getCountryName = function (locLat, locLng) {
         var geocoder = new google.maps.Geocoder();
@@ -13,7 +13,7 @@ angular.module('commuterListApp')
 
         geocoder.geocode({ 'latLng': latlng }, 
             function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
+                if (status === google.maps.GeocoderStatus.OK) {
                     if (results[1]) {
                         var country = null, countryCode = null, city = null, cityAlt = null, state = null, stateCode = null;
                         var c, lc, component;
@@ -55,7 +55,7 @@ angular.module('commuterListApp')
 
                         //console.log("City: " + city + ", City2: " + cityAlt + ", Country: " + country + ", Country Code: " + countryCode + ", State: " + state);
 
-                        if (cityAlt == null && countryCode !== 'US') {
+                        if (cityAlt === null && countryCode !== 'US') {
                             //console.log(country);
                             myCountry = {countryCode: countryCode, countryName: country};
                         }

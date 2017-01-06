@@ -45,10 +45,8 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          
-          
           <ul class="nav navbar-nav navbar-right">
-            <li><a ng-href="#/newroute"><span class="glyphicon glyphicon-road"></span> Submit your route</a></li>
+            <!--<li><a ng-href="#/newroute"><span class="glyphicon glyphicon-road"></span> Submit your route</a></li>-->
             <li ng-show="!isUserAuthenticated()"><a href="#/login">Login</a></li>
             <li ng-show="isUserAuthenticated()"><a href="#/logout">Logout</a></li>
           </ul>
@@ -114,8 +112,8 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
-        <script src="scripts/services/country.js"></script>
         <script src="scripts/services/authentication.js"></script>
+        <script src="scripts/services/country.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/editroute.js"></script>
@@ -123,6 +121,7 @@
         <script src="scripts/controllers/country.js"></script>
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/controllers/join.js"></script>
+        
         <!-- endbuild -->
 </body>
 </html>
