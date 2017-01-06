@@ -2,16 +2,12 @@
 
 /**
  * @ngdoc function
- * @name commuterListAppApp.controller:AboutCtrl
+ * @name commuterListApp.controller:AboutCtrl
  * @description
  * # AboutCtrl
- * Controller of the commuterListAppApp
+ * Controller of the commuterListApp
  */
 angular.module('commuterListApp')
   .controller('AboutCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+    
   });
