@@ -135,7 +135,7 @@ angular.module('commuterListApp')
               startCountry: newRoute.startCountry,
               endCountry: newRoute.endCountry,
               uid: authentication.auth().$getAuth().uid,
-              note: newRoute.note
+              note: (newRoute.note === undefined) ? '' : newRoute.note
           }, function() {
 
             if ($scope.oldRoute.startCountry !== newRoute.startCountry) {
@@ -167,7 +167,7 @@ angular.module('commuterListApp')
               startCountry: newRoute.startCountry,
               endCountry: newRoute.endCountry,
               uid: authentication.auth().$getAuth().uid,
-              note: newRoute.note
+              note: (newRoute.note === undefined) ? '' : newRoute.note
           }, function() {
             //incrementNumberOfRoutesForCountry(newRoute.startCountry, newRoute.endCountry);
             incrementNumberOfRoutesForCountry(newRoute.startCountry);

@@ -11,12 +11,12 @@ angular.module('commuterListApp')
   .controller('MainCtrl', function ($scope, $firebaseArray, $location, authentication, $rootScope) {
 	  
     var countries = firebase.database().ref().child("countries");
-    $scope.countries = $firebaseArray(countries);
-    /*
+    //$scope.countries = $firebaseArray(countries);
+    $scope.countries = null;
     $firebaseArray(countries).$loaded(function(result) {
       $scope.countries = result;
     });
-    */
+    
     $scope.openCountry = function(countryCode) {
       $location.path(/country/ + countryCode);
     };
