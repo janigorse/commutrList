@@ -40,8 +40,8 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
             <li><a ng-href="#/newroute">Add route</a></li>
-            <li ng-show="!isUserAuthenticated()"><a href="#/login">Login</a></li>
-            <li ng-show="isUserAuthenticated()"><a href="#/logout">Logout</a></li>
+            <li ng-if="!isUserAuthenticated()" ng-cloak><a href="#/login">Login</a></li>
+            <li ng-if="isUserAuthenticated()" ng-cloak><a href="#/logout">Logout</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
